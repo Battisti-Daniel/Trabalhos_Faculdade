@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h> ///para o getch()
+#include <time.h>
 ///https://stackoverflow.com/questions/34474627/linux-equivalent-for-conio-h-getch
 
 using namespace std;
@@ -36,7 +37,7 @@ int main()
     ///ALERTA: NÃO MODIFICAR O TRECHO DE CÓDIGO, ACIMA.
 
 
-    int bird_x = 5, bird_y = 10, ax, ay, placar = 0, remx, eh_barreira;
+    int bird_x = 5, bird_y = 10, ax, ay, placar = 0, remx, eh_barreira,x;
     int obstaculo_x = 80, obstaculo_y;
     int tecla{};
 
@@ -53,12 +54,15 @@ int main()
         cout << char(190);
         ax = bird_x;
         ay = bird_y;
+
+
+
         ///POSICIONA O OBSTÁCULO
         obstaculo_y = 1;
         while (obstaculo_y < 20) {
             coord.X = obstaculo_x;    coord.Y = obstaculo_y;
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-            if (obstaculo_y < 5 || obstaculo_y>7) {
+            if (obstaculo_y < 3 || obstaculo_y>11) {
                 cout << char(219);
             }
             else {
@@ -70,8 +74,8 @@ int main()
         cout << "\n";
         cout << "\n";
         cout << "Placar:" << placar;
-        
-        
+
+
 
         ///VERIFICA COLISÃO
 
@@ -94,11 +98,11 @@ int main()
 
         ///OBSTÁCULO AVANÇA UMA POSIÇÃO PARA ESQUERDA
         obstaculo_x--;
-      
-        
+
+
 
         ///TEMPO DE ESPERA
-        Sleep(175);
+        Sleep(200);
 
         //remove
         coord.X = ax;
@@ -113,17 +117,26 @@ int main()
             cout << " ";
             obstaculo_y++;
         }
+        
+        if (obstaculo_x == bird_x) {
+            obstaculo_x = NULL;
+            obstaculo_y = NULL;
+        }
+
 
 
 
         //GameOver
-        if (bird_y < 1 or bird_y > 19) {
+        if (ay < 1 or ay > 19 or (bird_y <= 2 and obstaculo_x == bird_x ) or (bird_y >= 11 and obstaculo_x == bird_x)) {
+
             return false;
         }
         else {
             placar += 1;
+            srand(time(NULL));
+            cout << rand()%100;
         }
-            }
+    }
 
     return 0;
 }
