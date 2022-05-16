@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 /**
     F L A P B I R D (M2 Algoritmos)
     - Lembrando: não permitido o uso de funções e variáveis compostas como structs, vetores e matrizes
@@ -19,10 +18,9 @@ using namespace std;
     - Definir marcos para acelerar a velocidade
 */
 
-
-
 int main()
 {
+    using namespace std;
     ///ALERTA: NÃO MODIFICAR O TRECHO DE CÓDIGO, A SEGUIR.
     //INICIO: COMANDOS PARA QUE O CURSOR NÃO FIQUE PISCANDO NA TELA
     HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -37,105 +35,214 @@ int main()
     ///ALERTA: NÃO MODIFICAR O TRECHO DE CÓDIGO, ACIMA.
 
 
-    int bird_x = 5, bird_y = 10, ax, ay, placar = 0, remx, eh_barreira,x;
-    int obstaculo_x = 80, obstaculo_y;
+    int bird_x = 5, bird_y = 10, ax, ay, placar = 0, armazena_obj1, eh_barreira,x, velocidade= 550, vel = 0,spawn, count = 41, armazena_obj2,cima1 = 3,baixo1 = 7, cima2 = 4, baixo2 = 11, cima3 = 8, baixo3 = 14;
+    int obstaculo_x = 15, obstaculo_y, obstaculo_x1 = 60, obstaculo_y1,teste = 0;
     int tecla{};
+    int selecionaOpcao, melhorpontuacao = 0, level = 1;
+    string godmode = "GOD MODE", osumode = "OSU MODE";
 
-    ///DESENHO DO CENÁRIO
-    cout << "--------------------------------------------------------------------------------------------------------";
-    cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-    cout << "--------------------------------------------------------------------------------------------------------\n";
 
-    while (true) { //esse laço faz o jogo rodar para sempre
+    system("cls");
+    cout << "" << endl;
+    cout << " --------------------------------------------------------  " << endl;
+    cout << "|                                                        | " << endl;
+    cout << "|   #### #    #### #### #### #   #    ###  # ###  ###    | " << endl;
+    cout << "|   #    #    #  # #  # #  # #   #    #  # # #  # #  #   | " << endl;
+    cout << "|   ###  #    #### #### #### #####    ###  # ###  #  #   | " << endl;
+    cout << "|   #    #    #  # #    #      #      #  # # #  # #  #   | " << endl;
+    cout << "|   #    #### #  # #    #      #      ###  # #  # ###    | " << endl;
+    cout << "|                                                        | " << endl;
+    cout << " --------------------------------------------------------  " << endl;
+    cout << "" << endl << endl;
+
+    cout << "MENU PRINCIPAL" << endl;
+    cout << "1 - Iniciar o jogo" << endl;
+    cout << "2 - Creditos" << endl;
+
+    cout << "Selecione uma opcao:";
+    cin >> selecionaOpcao;
+
+    while (selecionaOpcao < 1 or selecionaOpcao > 2) 
+    {
+        cout << "Selecione uma opcao valida:";
+        cin >> selecionaOpcao;
+    }
+    if (selecionaOpcao == 1) {
+        system("cls");
+
+        ///DESENHO DO CENÁRIO
+        cout << "--------------------------------------------------------------------------------------------------------";
+        cout << "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        cout << "--------------------------------------------------------------------------------------------------------";
+
+        while (true) { //esse laço faz o jogo rodar para sempre
 
         ///POSICIONA O PÁSSARO
-        coord.X = bird_x;    coord.Y = bird_y;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-        cout << char(190);
-        ax = bird_x;
-        ay = bird_y;
-
-
-
-        ///POSICIONA O OBSTÁCULO
-        obstaculo_y = 1;
-        while (obstaculo_y < 20) {
-            coord.X = obstaculo_x;    coord.Y = obstaculo_y;
+            coord.X = bird_x;    coord.Y = bird_y;
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-            if (obstaculo_y < 3 || obstaculo_y>11) {
-                cout << char(219);
+            cout << char(190);
+            ax = bird_x;    // guarda a posicao do passaro no eixo x
+            ay = bird_y;    // guarda a posicao do passaro no eixo y
+
+            srand(time(NULL));
+            spawn = rand() % 3;
+            ///POSICIONA O OBSTÁCULO
+                obstaculo_y = 1;
+                while (obstaculo_y < 20) {
+                    coord.X = obstaculo_x;
+                    coord.Y = obstaculo_y;
+                    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+                    if (obstaculo_y < cima1 || obstaculo_y > baixo1) {
+                        cout << char(219);
+                    }
+                    obstaculo_y++;
+                }
+                armazena_obj1 = obstaculo_x; /// armazena a posicao do primeiro obstaculo
+
+                obstaculo_y1 = 1;
+                while (obstaculo_y1 < 20) {
+                    coord.X = obstaculo_x1;
+                    coord.Y = obstaculo_y1;
+                    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+                    if (obstaculo_y1 < cima3 || obstaculo_y1>baixo3) {
+                        cout << char(219);
+                    }
+                    obstaculo_y1++;
+                }
+                armazena_obj2 = obstaculo_x1; /// armazena a posicao do segundo obstaculo
+
+
+            
+            cout << "\n";
+            cout << "\n";
+            cout << "Placar:" << placar << endl; /// insere o placar no console
+            if (level < 10) {
+                cout << "Level:" << level;
+            }
+            else if (level == 10)
+            {
+                cout << "GOD LEVEL";
+            }
+            else 
+            {
+                cout << "OSU LEVEL";
+            }
+            ///VERIFICA COLISÃO
+            if (bird_y > 19 or bird_y < 1 or (bird_x == obstaculo_x and (bird_y > baixo1 or bird_y < cima1)) or (bird_x == obstaculo_x1 and (bird_y > baixo3 or bird_y < cima3)))
+            {
+                cin >> teste;
+                return false;
+            }
+
+            ///VERIFICA COMANDO DO JOGADOR
+            if (_kbhit()) { ///verifica se uma tecla foi pressionada
+                tecla = _getch(); //verifica comando do jogador
+            }
+
+
+            ///PÁSSARO CAI 1 POSIÇÃO SE NÃO FOI PRESSIONADO PARA SUBIR
+            if (tecla == 'w') {
+                bird_y--;
+                tecla = '0';
             }
             else {
-                cout << " ";
+                bird_y++;
             }
-            obstaculo_y++;
-        }
-
-        cout << "\n";
-        cout << "\n";
-        cout << "Placar:" << placar;
 
 
-
-        ///VERIFICA COLISÃO
-
-        ///VERIFICA COMANDO DO JOGADOR
-        if (_kbhit()) { ///verifica se uma tecla foi pressionada
-            tecla = _getch(); //verifica comando do jogador
-        }
-
-
-        ///PÁSSARO CAI 1 POSIÇÃO SE NÃO FOI PRESSIONADO PARA SUBIR
-        if (tecla == 'w') {
-            bird_y--;
-            tecla = '0';
-        }
-        else {
-            bird_y++;
-        }
-        remx = obstaculo_x;
-
-
-        ///OBSTÁCULO AVANÇA UMA POSIÇÃO PARA ESQUERDA
-        obstaculo_x--;
+            ///OBSTÁCULO AVANÇA UMA POSIÇÃO PARA ESQUERDA
+            obstaculo_x--;
+            obstaculo_x1--;
 
 
 
-        ///TEMPO DE ESPERA
-        Sleep(200);
+            ///TEMPO DE ESPERA
+            Sleep(velocidade);
 
-        //remove
-        coord.X = ax;
-        coord.Y = ay;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-        cout << " ";
+            // remove rastro do cenario
+            obstaculo_y = 1;
+            while (obstaculo_y < 20) {
+                coord.X = armazena_obj1;    coord.Y = obstaculo_y;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+                cout << " ";
+                obstaculo_y++;
+            }
 
-        obstaculo_y = 1;
-        while (obstaculo_y < 20) {
-            coord.X = remx;    coord.Y = obstaculo_y;
+            obstaculo_y1 = 1;
+            while (obstaculo_y1 < 20) {
+                coord.X = armazena_obj2;    coord.Y = obstaculo_y1;
+                SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+                cout << " ";
+                obstaculo_y1++;
+            }
+
+            //altera velocidade e placar
+            if (bird_x == obstaculo_x or bird_x == obstaculo_x1)
+            {
+                placar += 1;
+                vel += 1;
+                if (vel == 5)
+                {
+                    velocidade -= 50;
+                    if (level < 10) {
+                        level += 1;
+                    }
+                    vel = 0;
+                }
+            }
+
+            //remove  rastro do passaro
+            coord.X = ax;
+            coord.Y = ay;
             SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
             cout << " ";
-            obstaculo_y++;
+
+            if (obstaculo_x == 1)
+            {
+                if(spawn == 0)
+                {
+                    cima1 = 3;
+                    baixo1 = 7;
+                }
+                else if (spawn == 1)
+                {
+                    cima1 = 7;
+                    baixo1 = 12;
+                }
+                else 
+                {
+                    cima1 = 12;
+                    baixo1 = 16;
+                }
+                obstaculo_x = 40;
+            }
+            if (obstaculo_x1 == 1)
+            {
+                if (spawn == 0)
+                {
+                    cima3 = 12;
+                    baixo3 = 16;
+                }
+                else if (spawn == 1)
+                {
+                    cima3 = 3;
+                    baixo3 = 7;
+                }
+                else
+                {
+                    cima3 = 7;
+                    baixo3 = 12;
+                }
+                obstaculo_x1 = 40;
+            }
         }
-        
-        if (obstaculo_x == bird_x) {
-            obstaculo_x = NULL;
-            obstaculo_y = NULL;
-        }
+    }
 
+    else if (selecionaOpcao == 2)
+    {
+        system("cls");
+        cout << "Versao beta desenvolvida por Thiago Felski Pereira para disciplina de Algoritmos. Reformada por Daniel Battisti e Joao Pedro Voltolini de Melo" << endl;
 
-
-
-        //GameOver
-        if (ay < 1 or ay > 19 or (bird_y <= 2 and obstaculo_x == bird_x ) or (bird_y >= 11 and obstaculo_x == bird_x)) {
-
-            return false;
-        }
-        else {
-            placar += 1;
-            srand(time(NULL));
-            cout << rand()%100;
-        }
     }
 
     return 0;
