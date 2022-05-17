@@ -35,12 +35,10 @@ int main()
     ///ALERTA: NÃO MODIFICAR O TRECHO DE CÓDIGO, ACIMA.
 
 
-    int bird_x = 5, bird_y = 10, ax, ay, placar = 0, armazena_obj1, eh_barreira,x, velocidade= 550, vel = 0,spawn, count = 41, armazena_obj2,cima1 = 3,baixo1 = 7, cima2 = 4, baixo2 = 11, cima3 = 8, baixo3 = 14;
-    int obstaculo_x = 15, obstaculo_y, obstaculo_x1 = 60, obstaculo_y1,teste = 0;
+    int bird_x = 5, bird_y = 10, ax, ay, armazena_obj1, velocidade = 550, armazena_obj2,cima1 = 3,baixo1 = 7, cima2 = 4, baixo2 = 11, cima3 = 8, baixo3 = 14;
+    int obstaculo_x = 40, obstaculo_y, obstaculo_x1 = 60, obstaculo_y1;
     int tecla{};
-    int selecionaOpcao, melhorpontuacao = 0, level = 1;
-    string godmode = "GOD MODE", osumode = "OSU MODE";
-
+    int selecionaOpcao, melhorpontuacao = 0, level = 1, placar = 0, vel = 0, spawn;
 
     system("cls");
     cout << "" << endl;
@@ -130,7 +128,6 @@ int main()
             ///VERIFICA COLISÃO
             if (bird_y > 19 or bird_y < 1 or (bird_x == obstaculo_x and (bird_y > baixo1 or bird_y < cima1)) or (bird_x == obstaculo_x1 and (bird_y > baixo3 or bird_y < cima3)))
             {
-                cin >> teste;
                 return false;
             }
 
