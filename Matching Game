@@ -1,0 +1,112 @@
+//Trabalho desenvolvido por Daniel Battisti e João Pedro Voltolini De Melo
+#include <iostream>
+#include<stdio.h>
+
+using namespace std;
+
+int main()
+{
+    int mainmatrix[4][4], usematrix[4][4], choice, valuecol,valuelin;
+    string showmatrix[4][4];
+
+    cout<< "Selecione alguma opção a seguir"<<"\n";
+    cout<< "1 - Créditos"<< "\n";
+    cout<< "2 - Novo Jogo"<<"\n";
+    cout<<"Opção:";
+    cin >> choice;
+    
+    //choice option
+    while(choice < 1 or choice > 2)
+    {
+        system("clear");
+        cout<< "Por favor selecionar uma opção válida"<<"\n";
+        cout<< "Selecione alguma opção a seguir"<<"\n";
+        cout<< "1 - Créditos"<< "\n";
+        cout<< "2 - Novo Jogo"<<"\n";
+        cout<<"Opção:";
+        cin >> choice;
+    }
+    
+    //select option 1
+    if (choice == 1)
+    {
+        system("clear");
+        cout<< "Trabalho desenvolvido por Daniel Battisti e João Pedro Voltolini De Melo";
+    }
+    if (choice == 2)
+    {
+    //default matrix
+    for (int i = 0 ; i < 4 ; i ++)
+    {
+        for (int j = 0; j < 4 ; j ++)
+        {
+            mainmatrix[i][j] = rand()%10;
+        }
+    }
+    
+    //transposed matrix
+    for (int i = 0 ; i < 4 ; i ++)
+    {
+        for(int j = 0 ; j < 4 ; j ++)
+        {
+            usematrix[i][j] = mainmatrix[j][i];
+        }
+    }
+    
+    //filled - in matrix show
+    for (int i = 0 ; i < 4 ; i ++)
+    {
+        for(int j = 0 ; j < 4 ; j ++)
+        {
+            showmatrix[i][j] = "-";
+        }
+    }
+        /*
+    //show
+        for (int i = 0 ; i < 4 ; i ++)
+    {
+        for(int j = 0 ; j < 4 ; j ++)
+        {
+            cout<< mainmatrix[i][j] << "\t";
+        }
+        cout<< "\n";
+    }*/
+        while (true){
+        system("clear");
+        
+        //show
+        for (int i = 0 ; i < 4 ; i ++)
+    {
+        for(int j = 0 ; j < 4 ; j ++)
+        {
+            cout<< showmatrix[i][j] << "\t";
+        }
+        cout<< "\n";
+    }
+        cout<< "Informe a LINHA e a COLUNA que deseja virar" << "\n";
+        cin >> valuelin;
+        cout<< "(" << valuelin << ")"<< "\n";
+        cin >> valuecol;
+        cout<< "(" << valuelin << ")" << "(" << valuecol << ")"<< "\n";
+        
+        while(true)
+        {
+        //show
+        for (int i = 0 ; i < 4 ; i ++)
+    {
+        for(int j = 0 ; j < 4 ; j ++)
+        {
+            cout<< showmatrix[i][j] << "\t";
+        }
+        cout<< "\n";
+        showmatrix[valuelin][valuecol] = usematrix[valuelin][valuecol];
+    }
+            cin >> choice;
+        }
+    }
+    
+        }
+    
+
+    return 0;
+}
