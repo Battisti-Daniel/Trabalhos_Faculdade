@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-    int mainmatrix[4][4], usematrix[4][4], choice, valuecol,valuelin,vectorcomp[4],countvector = 0;
+    int mainmatrix[4][4], usematrix[4][4], choice, valuecol,valuelin,vectorcomp[4],countvector = 0,plays = 0,right = 0;
     string showmatrix[4][4];
 
     cout<< "Selecione alguma opção a seguir"<<"\n";
@@ -95,11 +95,19 @@ int main()
         cin >> valuecol;
         cout<< "(" << valuelin << ")" << "(" << valuecol << ")"<< "\n";
         
-        if(valuelin < 0 or valuelin > 3 or valuecol < 0 or valuecol > 3)
+        if(valuelin < 0 or valuelin > 3 or valuecol < 0 or valuecol > 3 )
         {
             cout<< "Por favor, inserir um valor válido!"<< "\n";
             continue;
         }
+        
+        if(vectorcomp[0] == vectorcomp[2] and vectorcomp[1] == vectorcomp[3])
+        {
+            cout<<"Nao e possivel fazer jogadas com os mesmos numeros, pedeu uma jogada1"<<"\n";
+            plays +=1;
+            continue;
+        }
+        
         
         //show matrix with numbers
         for (int i = 0 ; i < 4 ; i ++)
@@ -122,11 +130,26 @@ int main()
     }
         }
         
+            for(int i = 0; i < 4; i ++)
+        {
+            for(int j = 0; j < 4; j ++)
+            {
+                if (showmatrix[i][j] != "-" and usematrix[i][j] == vectorcomp[0] and usematrix[i][j] == vectorcomp[1])
+                {
+                    cout<< "Nao e possivel selecionar uma posicao ja descoberta!, perdeu uma jogada2"<<"\n";
+                    plays +=1;
+                    continue;
+                }
+            }
+        }
+        
     //end choice col and line
-
+    
+    plays +=1;
+    
     if (usematrix[vectorcomp[0]][vectorcomp[1]] == usematrix[vectorcomp[2]][vectorcomp[3]])
     {
-        cout<< "teste";
+        right +=1;
     }
     else
     {
@@ -135,7 +158,21 @@ int main()
     }
     countvector = 0;
     
+    for(int i = 0; i < 4 ; i ++)
+    {
+        vectorcomp[i] = -1;
+    }
     
+    if(plays == 24)
+    {
+        cout<< "O numero de tentativas acabou, tente novamente!";
+        return false;
+    }
+    else if (right == 8)
+    {
+        cout<< "Parabens voce venceu!"<< "\n";
+        return false;
+    }
      }
      
         }
