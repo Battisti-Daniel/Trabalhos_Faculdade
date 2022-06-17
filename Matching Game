@@ -1,12 +1,13 @@
 //Trabalho desenvolvido por Daniel Battisti e João Pedro Voltolini De Melo
 #include <iostream>
 #include<stdio.h>
+#include<sstream>
 
 using namespace std;
 
 int main()
 {
-    int mainmatrix[4][4], usematrix[4][4], choice, valuecol,valuelin;
+    int mainmatrix[4][4], usematrix[4][4], choice, valuecol,valuelin,vectorcomp[4],countvector = 0;
     string showmatrix[4][4];
 
     cout<< "Selecione alguma opção a seguir"<<"\n";
@@ -83,30 +84,62 @@ int main()
         }
         cout<< "\n";
     }
+        
+        while(true)
+        {
+        for (int i = 0 ; i < 2 ; i ++)
+        {
         cout<< "Informe a LINHA e a COLUNA que deseja virar" << "\n";
         cin >> valuelin;
         cout<< "(" << valuelin << ")"<< "\n";
         cin >> valuecol;
         cout<< "(" << valuelin << ")" << "(" << valuecol << ")"<< "\n";
         
-        while(true)
+        if(valuelin < 0 or valuelin > 3 or valuecol < 0 or valuecol > 3)
         {
-        //show
+            cout<< "Por favor, inserir um valor válido!"<< "\n";
+            continue;
+        }
+        
+        //show matrix with numbers
         for (int i = 0 ; i < 4 ; i ++)
     {
         for(int j = 0 ; j < 4 ; j ++)
         {
+            if(i==valuelin and j ==valuecol)
+            {
+                int valueshow = usematrix[i][j];
+                vectorcomp[countvector] = i;
+                countvector += 1;
+                vectorcomp[countvector] = j;
+                countvector +=1;
+                string str = to_string(valueshow);
+                showmatrix[i][j] = str;
+            }
             cout<< showmatrix[i][j] << "\t";
         }
         cout<< "\n";
-        showmatrix[valuelin][valuecol] = usematrix[valuelin][valuecol];
     }
-            cin >> choice;
+        }
+        
+    //end choice col and line
+
+    if (usematrix[vectorcomp[0]][vectorcomp[1]] == usematrix[vectorcomp[2]][vectorcomp[3]])
+    {
+        cout<< "teste";
+    }
+    else
+    {
+        showmatrix[vectorcomp[0]][vectorcomp[1]] = "-";
+        showmatrix[vectorcomp[2]][vectorcomp[3]] = "-";
+    }
+    countvector = 0;
+    
+    
+     }
+     
         }
     }
-    
-        }
-    
 
     return 0;
 }
