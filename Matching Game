@@ -90,24 +90,16 @@ int main()
         for (int i = 0 ; i < 2 ; i ++)
         {
         cout<< "Informe a LINHA e a COLUNA que deseja virar" << "\n";
+        cout<< "Linha:";
         cin >> valuelin;
-        cout<< "(" << valuelin << ")"<< "\n";
+        cout<< "Coluna:";
         cin >> valuecol;
-        cout<< "(" << valuelin << ")" << "(" << valuecol << ")"<< "\n";
         
-        if(valuelin < 0 or valuelin > 3 or valuecol < 0 or valuecol > 3 )
+        if(valuelin < 0 or valuelin > 3 or valuecol < 0 or valuecol > 3 or showmatrix[valuelin][valuecol] != "-")
         {
             cout<< "Por favor, inserir um valor válido!"<< "\n";
             continue;
         }
-        
-        if(vectorcomp[0] == vectorcomp[2] and vectorcomp[1] == vectorcomp[3])
-        {
-            cout<<"Nao e possivel fazer jogadas com os mesmos numeros, pedeu uma jogada1"<<"\n";
-            plays +=1;
-            continue;
-        }
-        
         
         //show matrix with numbers
         for (int i = 0 ; i < 4 ; i ++)
@@ -130,32 +122,37 @@ int main()
     }
         }
         
-            for(int i = 0; i < 4; i ++)
-        {
-            for(int j = 0; j < 4; j ++)
-            {
-                if (showmatrix[i][j] != "-" and usematrix[i][j] == vectorcomp[0] and usematrix[i][j] == vectorcomp[1])
-                {
-                    cout<< "Nao e possivel selecionar uma posicao ja descoberta!, perdeu uma jogada2"<<"\n";
-                    plays +=1;
-                    continue;
-                }
-            }
-        }
-        
     //end choice col and line
     
     plays +=1;
     
-    if (usematrix[vectorcomp[0]][vectorcomp[1]] == usematrix[vectorcomp[2]][vectorcomp[3]])
+    for(int i = 0 ; i < 4 ; i ++)
     {
-        right +=1;
+        for(int j = 0 ; j < 4 ; j ++)
+        {
+            if (showmatrix[i][j] != "-")
+            {
+                right +=1;
+            }
+        }
     }
+    
+    if (right == 16)
+    {
+        cout<< "Parabens voce venceu!"<< "\n";
+        return false;
+    }    
+    else if (usematrix[vectorcomp[0]][vectorcomp[1]] == usematrix[vectorcomp[2]][vectorcomp[3]])
+    {
+        
+    }
+    
     else
     {
         showmatrix[vectorcomp[0]][vectorcomp[1]] = "-";
         showmatrix[vectorcomp[2]][vectorcomp[3]] = "-";
     }
+    right = 0;
     countvector = 0;
     
     for(int i = 0; i < 4 ; i ++)
@@ -165,12 +162,7 @@ int main()
     
     if(plays == 24)
     {
-        cout<< "O numero de tentativas acabou, tente novamente!";
-        return false;
-    }
-    else if (right == 8)
-    {
-        cout<< "Parabens voce venceu!"<< "\n";
+        cout<< "O numero de tentativas acabou, você perdeu, tente novamente!";
         return false;
     }
      }
