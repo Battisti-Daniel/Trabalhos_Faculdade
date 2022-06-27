@@ -1,174 +1,202 @@
-//Trabalho desenvolvido por Daniel Battisti e João Pedro Voltolini De Melo
+// ConsoleApplication1.cpp : Este arquivo contém a função 'main'. A execução do programa começa e termina ali.
+//
+
 #include <iostream>
 #include<stdio.h>
-#include<sstream>
 
 using namespace std;
 
 int main()
 {
-    int mainmatrix[4][4], usematrix[4][4], choice, valuecol,valuelin,vectorcomp[4],countvector = 0,plays = 0,right = 0;
-    string showmatrix[4][4];
+    int choicematrix, line, column,line1,column1, value = 0,value1 = 0,chance = 0,right = 0;
+    int matrixgab[4][4];
+    char matrixgame[4][4];
+    srand(time(NULL));
+    //main matrix
 
-    cout<< "Selecione alguma opção a seguir"<<"\n";
-    cout<< "1 - Créditos"<< "\n";
-    cout<< "2 - Novo Jogo"<<"\n";
-    cout<<"Opção:";
-    cin >> choice;
+    int mainmatrix[4][4] =
+    {
+        1,4,5,2,
+        7,2,8,7,
+        3,6,1,4,
+        6,5,3,8
+    };
+
+    //random choice
+    choicematrix = rand() % 3;
     
-    //choice option
-    while(choice < 1 or choice > 2)
+    if (choicematrix == 0) //normal matrix
     {
-        system("clear");
-        cout<< "Por favor selecionar uma opção válida"<<"\n";
-        cout<< "Selecione alguma opção a seguir"<<"\n";
-        cout<< "1 - Créditos"<< "\n";
-        cout<< "2 - Novo Jogo"<<"\n";
-        cout<<"Opção:";
-        cin >> choice;
-    }
-    
-    //select option 1
-    if (choice == 1)
-    {
-        system("clear");
-        cout<< "Trabalho desenvolvido por Daniel Battisti e João Pedro Voltolini De Melo";
-    }
-    if (choice == 2)
-    {
-    //default matrix
-    for (int i = 0 ; i < 4 ; i ++)
-    {
-        for (int j = 0; j < 4 ; j ++)
+        for (int i = 0; i < 4; i++)
         {
-            mainmatrix[i][j] = rand()%10;
+            for (int j = 0; j < 4; j++)
+            {
+                matrixgab[i][j] = mainmatrix[i][j];
+            }
         }
     }
-    
-    //transposed matrix
-    for (int i = 0 ; i < 4 ; i ++)
+    else if (choicematrix == 1) // transposed
     {
-        for(int j = 0 ; j < 4 ; j ++)
+        for (int i = 0; i < 4; i++)
         {
-            usematrix[i][j] = mainmatrix[j][i];
+            for (int j = 0; j < 4; j++)
+            {
+                matrixgab[i][j] = mainmatrix[j][i];
+            }
         }
     }
-    
-    //filled - in matrix show
-    for (int i = 0 ; i < 4 ; i ++)
+    else if (choicematrix == 2) // reverseline
     {
-        for(int j = 0 ; j < 4 ; j ++)
+        int c = 0;
+        for (int i = 3; i > -1; i--)
         {
-            showmatrix[i][j] = "-";
+            for (int j = 0; j < 4; j++)
+            {
+                matrixgab[i][j] = mainmatrix[c][j];
+            }
+            c += 1;
         }
     }
-        /*
-    //show
-        for (int i = 0 ; i < 4 ; i ++)
+    else if (choicematrix == 3) //reversecolumn
     {
-        for(int j = 0 ; j < 4 ; j ++)
+        int c = 0;
+        for (int i = 0; i < 4; i++)
         {
-            cout<< mainmatrix[i][j] << "\t";
+            for (int j = 3; j > -1; j--)
+            {
+                matrixgab[i][j] = mainmatrix[i][c];
+                c += 1;
+            }
+            c = 0;
         }
-        cout<< "\n";
-    }*/
-        while (true){
-        system("clear");
-        
+    }
+
+    //matrixgame
+    for (int i = 0; i < 4; i++) 
+    {
+        for (int j = 0; j < 4; j++) 
+        {
+            matrixgame[i][j] = '-';
+        }
+    }
+
+    while (true)
+    {
+        //rules to finish game
+        if (right == 8) { system("cls"); cout << "VOCE VENCEU, PARABENS!"; return false; }
+        if (chance > 24) { system("cls"); cout << "VOCE PERDEU,TENTE NOVAMENTE!"; return false; }
+
         //show
-        for (int i = 0 ; i < 4 ; i ++)
-    {
-        for(int j = 0 ; j < 4 ; j ++)
+        for (int i = 0; i < 4; i++)
         {
-            cout<< showmatrix[i][j] << "\t";
+            for (int j = 0; j < 4; j++)
+            {
+                cout << matrixgame[i][j] << "\t";
+            }
+            cout << "\n";
         }
-        cout<< "\n";
-    }
-        
-        while(true)
+        cout << "TOTAL DE JOGADAS:" << chance;
+
+        //choice line and column
+        cout << "\nInforme a seguir a posicao da linha: ";
+        cin >> line;
+        cout << "Informe a seguir a posicao da coluna: ";
+        cin >> column;
+
+        //rules
+        if (line > 4 or line < 0 or column > 4 or column < 0 or matrixgame[line][column] != 45)
         {
-        for (int i = 0 ; i < 2 ; i ++)
-        {
-        cout<< "Informe a LINHA e a COLUNA que deseja virar" << "\n";
-        cout<< "Linha:";
-        cin >> valuelin;
-        cout<< "Coluna:";
-        cin >> valuecol;
-        
-        if(valuelin < 0 or valuelin > 3 or valuecol < 0 or valuecol > 3 or showmatrix[valuelin][valuecol] != "-")
-        {
-            cout<< "Por favor, inserir um valor válido!"<< "\n";
+            cout << ("Valor de linha ou coluna invalido, tente novamente! \n");
+            system("pause");
+            chance += 1;
+            line = -1;
+            column = -1;
+            line1 = -1;
+            column1 = -1;
+            value = -1;
+            value1 = -1;
             continue;
         }
-        
-        //show matrix with numbers
-        for (int i = 0 ; i < 4 ; i ++)
-    {
-        for(int j = 0 ; j < 4 ; j ++)
-        {
-            if(i==valuelin and j ==valuecol)
-            {
-                int valueshow = usematrix[i][j];
-                vectorcomp[countvector] = i;
-                countvector += 1;
-                vectorcomp[countvector] = j;
-                countvector +=1;
-                string str = to_string(valueshow);
-                showmatrix[i][j] = str;
-            }
-            cout<< showmatrix[i][j] << "\t";
-        }
-        cout<< "\n";
-    }
-        }
-        
-    //end choice col and line
-    
-    plays +=1;
-    
-    for(int i = 0 ; i < 4 ; i ++)
-    {
-        for(int j = 0 ; j < 4 ; j ++)
-        {
-            if (showmatrix[i][j] != "-")
-            {
-                right +=1;
-            }
-        }
-    }
-    
-    if (right == 16)
-    {
-        cout<< "Parabens voce venceu!"<< "\n";
-        return false;
-    }    
-    else if (usematrix[vectorcomp[0]][vectorcomp[1]] == usematrix[vectorcomp[2]][vectorcomp[3]])
-    {
-        
-    }
-    
-    else
-    {
-        showmatrix[vectorcomp[0]][vectorcomp[1]] = "-";
-        showmatrix[vectorcomp[2]][vectorcomp[3]] = "-";
-    }
-    right = 0;
-    countvector = 0;
-    
-    for(int i = 0; i < 4 ; i ++)
-    {
-        vectorcomp[i] = -1;
-    }
-    
-    if(plays == 24)
-    {
-        cout<< "O numero de tentativas acabou, você perdeu, tente novamente!";
-        return false;
-    }
-     }
-     
-        }
-    }
 
-    return 0;
+        //ASCII
+        if (matrixgab[line][column] == 1) { value = 49; }
+        else if (matrixgab[line][column] == 2) { value = 50; }
+        else if (matrixgab[line][column] == 3) { value = 51; }
+        else if (matrixgab[line][column] == 4) { value = 52; }
+        else if (matrixgab[line][column] == 5) { value = 53; }
+        else if (matrixgab[line][column] == 6) { value = 54; }
+        else if (matrixgab[line][column] == 7) { value = 55; }
+        else if (matrixgab[line][column] == 8) { value = 56; }
+
+        matrixgame[line][column] = value;
+
+        //show
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                cout << matrixgame[i][j] << "\t";
+            }
+            cout << "\n";
+        }
+
+        //choice line and column
+        cout << "\nInforme a seguir a posicao da linha: ";
+        cin >> line1;
+        cout << "Informe a seguir a posicao da coluna: ";
+        cin >> column1;
+
+        //rules
+
+        if (line1 > 4 or line1 < 0 or column1 > 4 or column1 < 0 or matrixgame[line1][column1] != 45)
+        {
+            cout << ("Valor de linha ou coluna invalido, tente novamente! \n");
+            system("pause");
+            matrixgame[line][column] = 45;
+            chance += 1;
+            chance += 1;
+            line = -1;
+            column = -1;
+            line1 = -1;
+            column1 = -1;
+            value = -1;
+            value1 = -1;
+            continue;
+        }
+
+        //ASCII
+        if (matrixgab[line1][column1] == 1) { value1 = 49; }
+        else if (matrixgab[line1][column1] == 2) { value1 = 50; }
+        else if (matrixgab[line1][column1] == 3) { value1 = 51; }
+        else if (matrixgab[line1][column1] == 4) { value1 = 52; }
+        else if (matrixgab[line1][column1] == 5) { value1 = 53; }
+        else if (matrixgab[line1][column1] == 6) { value1 = 54; }
+        else if (matrixgab[line1][column1] == 7) { value1 = 55; }
+        else if (matrixgab[line1][column1] == 8) { value1 = 56; }
+
+        matrixgame[line1][column1] = value1;
+
+        //show
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                cout << matrixgame[i][j] << "\t";
+            }
+            cout << "\n";
+        }
+
+        //show values
+        if (value != value1) 
+        {
+            matrixgame[line][column] = 45;
+            matrixgame[line1][column1] = 45;
+            chance += 1;
+        }
+        else { right += 1; chance += 1; }
+        
+        system("pause");
+    }
 }
+   
+    
