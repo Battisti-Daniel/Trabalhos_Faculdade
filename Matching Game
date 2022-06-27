@@ -1,6 +1,6 @@
 // ConsoleApplication1.cpp : Este arquivo contém a função 'main'. A execução do programa começa e termina ali.
 //
-
+// Trabalho desenvolvido por Daniel Battisti e João Pedro Voltolini de Melo 
 #include <iostream>
 #include<stdio.h>
 
@@ -153,7 +153,6 @@ int main()
             cout << ("Valor de linha ou coluna invalido, tente novamente! \n");
             system("pause");
             matrixgame[line][column] = 45;
-            chance += 1;
             chance += 1;
             line = -1;
             column = -1;
